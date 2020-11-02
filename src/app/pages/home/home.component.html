@@ -1,0 +1,87 @@
+
+<app-navbar></app-navbar>
+
+<div class="m-5">
+  <div class="alert alert-primary" role="alert">
+    Listado de usuarios
+  </div>
+
+  <div class="table-responsive">
+
+    <table class="table table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Id del dispositivo</th>
+          <th scope="col">Email</th>
+          <th scope="col">Contraseña</th>
+          <th scope="col">Fecha Creacion</th>
+          <th scope="col">Fecha vencimiento</th>
+          <th scope="col">Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of listaUsuarios">
+          <th scope="row">{{usuario.usr_Id}}</th>
+          <td>{{usuario.usr_DeviceID}}</td>
+          <td>{{usuario.usr_Mail}}</td>
+          <td>{{usuario.usr_Passwd}}</td>
+          <td>{{usuario.usr_FechaCreacion}}</td>
+          <td>{{usuario.usr_FechaVence}}</td>
+          <td>{{usuario.sts_Descripcion}}</td>
+          <td (click)="editarUsuario(usuario)" data-toggle="modal" data-target="#editarUsuarioModal"><button class="btn"><i class="fa fa-pencil"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+
+
+<!-- Editar Usuario Modal -->
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="formEditarUsuario" (ngSubmit)="actualizarUsuario()" class="form-group" autocomplete="off">
+
+            <div class="form-group">
+              <label class="col-2 col-form-ñabel">Id</label>
+              <input type="number" class="form-control" formControlName="id">
+              <span *ngIf="getValidarId" class="text-danger">El id no debe estar vacio</span>
+            </div>
+
+            <div class="form-group">
+              <label class="col-2 col-form-label">Email</label>
+              <input type="email" class="form-control" formControlName="email">
+              <span *ngIf="getValidarEmail" class="text-danger">El correo es obligatorio</span>
+            </div>
+
+            <div class="form-group">
+              <label class="col-2 col-form-label">Contraseña</label>
+              <input type="password" class="form-control" formControlName="password">
+              <span *ngIf="getValidarPassword" class="text-danger">La contraseña es obligatoria</span>
+            </div>
+
+            <div class="form-group">
+              <label class="col-6 col-form-label">Fecha de vencimiento</label>
+              <input type="date" class="form-control" formControlName="fecha">
+              <span *ngIf="getValidarFecha" class="text-danger">Debe establecer una fecha de vencimiento</span>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
