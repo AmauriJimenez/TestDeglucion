@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   listaUsuarios:[] = [];
+  listaEstados:any[] = [];
   usuario: usuarioModel;
   formEditarUsuario:FormGroup;
 
@@ -28,6 +29,12 @@ export class HomeComponent implements OnInit {
       this.listaUsuarios = data;
       //console.log(this.listaUsuarios);
     });
+
+    this.auth.getEstados().subscribe((data:any) =>{
+      this.listaEstados = data;
+      this.listaEstados.unshift({ 'sts_Id': '', 'sts_Descripcion': 'Seleccione...' })
+      //console.log(this.listaEstados)
+    });
   }
 
   salir(){
@@ -37,16 +44,14 @@ export class HomeComponent implements OnInit {
 
   editarUsuario(usuarioSeleccionado: usuarioModel){
     this.usuario = usuarioSeleccionado;
-    console.log(this.usuario);
-
+    //console.log(usuarioSeleccionado);
     this.formEditarUsuario = this.formBuilder.group({
-      id:[{value:usuarioSeleccionado.usr_Id}, Validators.required],
-      email:[{value:usuarioSeleccionado.usr_Mail}, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      password:[{value:usuarioSeleccionado.usr_Passwd}, [Validators.required, Validators.minLength(8)]],
-      fecha:[{value:usuarioSeleccionado.usr_FechaVence}, Validators.required]
+      id:[usuarioSeleccionado.usr_Id, Validators.required],
+      email:[usuarioSeleccionado.usr_Mail, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      password:[usuarioSeleccionado.usr_Passwd, [Validators.required, Validators.minLength(8)]],
+      fecha:[usuarioSeleccionado.usr_FechaVence, Validators.required],
+      estado:[usuarioSeleccionado.usr_Estado, Validators.required]
     });
-
-    console.log(usuarioSeleccionado.usr_Id);
 
   }
 
@@ -54,28 +59,33 @@ export class HomeComponent implements OnInit {
 
   }
 
-  getValidarId(){
+  get validarId(){
     return this.formEditarUsuario.get('id').invalid && this.formEditarUsuario.get('id').touched
   }
 
-  getValidarEmail(){
+  get validarEmail(){
     return this.formEditarUsuario.get('email').invalid && this.formEditarUsuario.get('email').touched
   }
 
-  getValidarPassword(){
+  get validarPassword(){
     return this.formEditarUsuario.get('password').invalid && this.formEditarUsuario.get('password').touched
   }
 
-  getValidarFecha(){
+  get validarFecha(){
     return this.formEditarUsuario.get('fecha').invalid && this.formEditarUsuario.get('fecha').touched
+  }
+
+  get validarEstado(){
+    return this.formEditarUsuario.get('estado').invalid && this.formEditarUsuario.get('estado').touched
   }
 
   crearFormulario(){
     this.formEditarUsuario = this.formBuilder.group({
-      id:[{value:''}, Validators.required],
-      email:[{value:''}, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      password:[{value:''}, [Validators.required, Validators.minLength(8)]],
-      fecha:[{value:''}, Validators.required]
+      id:['', Validators.required],
+      email:['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      password:['', [Validators.required, Validators.minLength(8)]],
+      fecha:['', Validators.required],
+      estado:['',Validators.required]
     });
   }
 

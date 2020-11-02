@@ -56,25 +56,33 @@
             <div class="form-group">
               <label class="col-2 col-form-ñabel">Id</label>
               <input type="number" class="form-control" formControlName="id">
-              <span *ngIf="getValidarId" class="text-danger">El id no debe estar vacio</span>
+              <span *ngIf="validarId" class="text-danger">El id no debe estar vacio</span>
             </div>
 
             <div class="form-group">
               <label class="col-2 col-form-label">Email</label>
               <input type="email" class="form-control" formControlName="email">
-              <span *ngIf="getValidarEmail" class="text-danger">El correo es obligatorio</span>
+              <span *ngIf="validarEmail" class="text-danger">El correo es obligatorio</span>
+            </div>
+
+            <div class="form-group">
+              <label class="col-2 col-form-label">Estado</label>
+              <select class="custom-select sm-2 form-control" formControlName="estado">
+                <option [value]="estado.sts_Id" *ngFor="let estado of listaEstados">{{estado.sts_Descripcion}}</option>
+              </select>
+              <span *ngIf="validarEstado" class="text-danger">Estado invalido</small>
             </div>
 
             <div class="form-group">
               <label class="col-2 col-form-label">Contraseña</label>
               <input type="password" class="form-control" formControlName="password">
-              <span *ngIf="getValidarPassword" class="text-danger">La contraseña es obligatoria</span>
+              <span *ngIf="validarPassword" class="text-danger">La contraseña es obligatoria</span>
             </div>
 
             <div class="form-group">
               <label class="col-6 col-form-label">Fecha de vencimiento</label>
               <input type="date" class="form-control" formControlName="fecha">
-              <span *ngIf="getValidarFecha" class="text-danger">Debe establecer una fecha de vencimiento</span>
+              <span *ngIf="validarFecha" class="text-danger">Debe establecer una fecha de vencimiento</span>
             </div>
 
             <div class="modal-footer">

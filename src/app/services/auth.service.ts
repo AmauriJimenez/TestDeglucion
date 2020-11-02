@@ -23,10 +23,10 @@ export class AuthService {
     localStorage.removeItem('Expira');
   }
 
-  login(usuario: usuarioModel){
+  login(username, passwordLogin){
     const authData = {
-      "email": usuario.usr_Mail,
-      "password": usuario.usr_Passwd,
+      "email": username,
+      "password": passwordLogin,
       returnSecureToken: true
     }
     return this.http.post<any>(`${this.url}login.php`,authData).pipe(map(resp =>{
@@ -40,12 +40,13 @@ export class AuthService {
     );
   }
 
-  nuevoUsuario(usuario: usuarioModel){
+  nuevoUsuario(usuario){
     const authData = {
-      email: usuario.usr_Mail,
-      password: usuario.usr_Passwd,
-      fecha: usuario.usr_FechaVence
+      "email": usuario.email,
+      "password": usuario.password,
+      "fecha": usuario.fecha
     }
+    console.log(authData);
     return this.http.post(`${this.url}nuevoUsuario.php`,authData).pipe(map(resp =>{
       return resp;
     })
@@ -53,7 +54,11 @@ export class AuthService {
   }
 
   getUsuarios(){
-    return this.http.get(`${this.url}listaDeUsuarios.php`);
+    return this.http.get(`${this.url}listaUsuarios.php`);
+  }
+
+  getEstados(){
+    return this.http.get(`${this.url}listaEstados.php`);
   }
 
   private guardarToken(idToken:string){

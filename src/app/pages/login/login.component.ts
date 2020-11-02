@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { usuarioModel } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
 import  Swal  from 'sweetalert2'
@@ -14,12 +14,15 @@ export class LoginComponent implements OnInit {
 
   usuario: usuarioModel;
   recordarme:boolean = false;
-  constructor(private auth:AuthService, private router:Router) {}
+  formLogin:FormGroup;
+
+  constructor(private auth:AuthService, private router:Router, private formBuilder:FormBuilder) {
+    this.crearFormularioLogin();
+  }
 
   ngOnInit() {
     this.usuario = new usuarioModel;
     //console.log(localStorage.getItem('Token'));
-
 
     if (localStorage.getItem('Token') != null) {
       this.usuario.token = localStorage.getItem('token');
@@ -28,8 +31,25 @@ export class LoginComponent implements OnInit {
 
   }
 
-  login(formularioLogin: NgForm){
-    if(formularioLogin.valid){
+  get validarUsuario(){
+    return this.formLogin.get('username').invalid && this.formLogin.get('username').touched
+  }
+
+  get validarPasswd(){
+    return this.formLogin.get('passwordLogin').invalid && this.formLogin.get('passwordLogin').touched
+  }
+
+  crearFormularioLogin(){
+    this.formLogin = this.formBuilder.group({
+      username:['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      passwordLogin:['', Validators.required]
+    });
+  }
+
+  login(){
+    console.log(this.formLogin.valid);
+
+    if(this.formLogin.valid){
       //console.log(this.usuario);
       Swal.fire({
         allowOutsideClick:false,
@@ -37,8 +57,13 @@ export class LoginComponent implements OnInit {
         text:'Espere por favor'
       });
       Swal.showLoading();
-      this.auth.login(this.usuario).subscribe(resp =>{
-        //console.log(resp['resp']);
+      console.log(this.formLogin.value)
+
+      const username = this.formLogin.get('username').value;
+      const passwordLogin = this.formLogin.get('passwordLogin').value;
+
+      this.auth.login(username, passwordLogin).subscribe(resp =>{
+        console.log(resp['resp']);
         Swal.close();
         if(this.recordarme){
           localStorage.setItem('Email',this.usuario.usr_Mail);
@@ -100,6 +125,14 @@ export class LoginComponent implements OnInit {
           icon: 'error',
           confirmButtonText: 'Cool'
         });
+      });
+    }else{
+      return Object.values(this.formLogin.controls).forEach(controls =>{
+        if (controls instanceof FormGroup) {
+          Object.values(controls.controls).forEach(control => control.markAllAsTouched());
+        }else{
+          controls.markAsTouched();
+        }
       });
     }
   }

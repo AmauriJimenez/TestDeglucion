@@ -33,23 +33,23 @@
         </button>
       </div>
       <div class="modal-body">
-          <form (ngSubmit)="nuevoUsuario(fomularioNuevoUsuario)"  #fomularioNuevoUsuario="ngForm" class="form-group" autocomplete="off">
+          <form [formGroup]="formNuevoUsuario" (ngSubmit)="nuevoUsuario()" class="form-group" autocomplete="off">
 
             <div class="form-group">
               <label class="col-2 col-form-label">Email</label>
-              <input [(ngModel)]="usuario.email" type="email" class="form-control" name="email" placeholder="Email" required>
-              <span *ngIf="fomularioNuevoUsuario.submitted && fomularioNuevoUsuario.controls['email'].errors" class="text-danger">El correo es obligatorio</span>
+              <input type="email" class="form-control" formControlName="email" placeholder="Email">
+              <span *ngIf="validarEmail" class="text-danger">El correo es obligatorio</span>
             </div>
 
             <div class="form-group">
               <label class="col-2 col-form-label">Contraseña</label>
-              <input [(ngModel)]="usuario.passwd" type="password" class="form-control" name="password" placeholder="Contraseña" required>
-              <span *ngIf="fomularioNuevoUsuario.submitted && fomularioNuevoUsuario.controls['password'].errors" class="text-danger">la contraseña es obligatoria</span>
+              <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+              <span *ngIf="validarPassword" class="text-danger">la contraseña es obligatoria</span>
             </div>
 
             <div class="form-group">
               <label class="col-6 col-form-label">Fecha de vencimiento</label>
-              <input [(ngModel)]="usuario.fecha" type="date" class="form-control" name="fecha" placeholder="Fecha Vencimiento">
+              <input type="date" class="form-control" formControlName="fecha" placeholder="Fecha Vencimiento">
             </div>
 
             <div class="modal-footer">
