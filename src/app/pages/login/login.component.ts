@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    console.log(this.formLogin.valid);
+    //console.log(this.formLogin.valid);
 
     if(this.formLogin.valid){
       //console.log(this.usuario);
@@ -57,13 +57,13 @@ export class LoginComponent implements OnInit {
         text:'Espere por favor'
       });
       Swal.showLoading();
-      console.log(this.formLogin.value)
+      //console.log(this.formLogin.value)
 
       const username = this.formLogin.get('username').value;
       const passwordLogin = this.formLogin.get('passwordLogin').value;
 
       this.auth.login(username, passwordLogin).subscribe(resp =>{
-        console.log(resp['resp']);
+        //console.log(resp['resp']);
         Swal.close();
         if(this.recordarme){
           localStorage.setItem('Email',this.usuario.usr_Mail);

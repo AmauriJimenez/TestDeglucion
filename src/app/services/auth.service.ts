@@ -46,11 +46,24 @@ export class AuthService {
       "password": usuario.password,
       "fecha": usuario.fecha
     }
-    console.log(authData);
+    //console.log(authData);
     return this.http.post(`${this.url}nuevoUsuario.php`,authData).pipe(map(resp =>{
       return resp;
     })
     );
+  }
+
+  actualizarUsuario(usuario){
+   const authData = {
+     "id": usuario.id,
+     "email": usuario.email,
+     "passwd": usuario.password,
+     "estado": usuario.estado,
+     "fechaVence": usuario.fecha
+    };
+    return this.http.post(`${this.url}actualizarUsuario.php`,authData).pipe(map(resp =>{
+      return resp;
+    }))
   }
 
   getUsuarios(){

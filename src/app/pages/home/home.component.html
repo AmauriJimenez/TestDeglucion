@@ -62,7 +62,7 @@
             <div class="form-group">
               <label class="col-2 col-form-label">Email</label>
               <input type="email" class="form-control" formControlName="email">
-              <span *ngIf="validarEmail" class="text-danger">El correo es obligatorio</span>
+              <span *ngIf="validarEmail" class="text-danger">El correo no cumple con las condiciones</span>
             </div>
 
             <div class="form-group">
@@ -70,13 +70,13 @@
               <select class="custom-select sm-2 form-control" formControlName="estado">
                 <option [value]="estado.sts_Id" *ngFor="let estado of listaEstados">{{estado.sts_Descripcion}}</option>
               </select>
-              <span *ngIf="validarEstado" class="text-danger">Estado invalido</small>
+              <span *ngIf="validarEstado" class="text-danger">Estado invalido</span>
             </div>
 
             <div class="form-group">
               <label class="col-2 col-form-label">Contraseña</label>
               <input type="password" class="form-control" formControlName="password">
-              <span *ngIf="validarPassword" class="text-danger">La contraseña es obligatoria</span>
+              <span *ngIf="validarPassword" class="text-danger">La contraseña no cumple con las condiciones requeridas</span>
             </div>
 
             <div class="form-group">

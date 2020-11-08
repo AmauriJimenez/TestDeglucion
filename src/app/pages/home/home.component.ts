@@ -16,14 +16,12 @@ export class HomeComponent implements OnInit {
   usuario: usuarioModel;
   formEditarUsuario:FormGroup;
 
-
   constructor(private auth:AuthService, private router:Router, private formBuilder: FormBuilder) {
     this.crearFormulario();
   }
 
   ngOnInit() {
     this.usuario = new usuarioModel;
-
 
     this.auth.getUsuarios().subscribe((data:any) =>{
       this.listaUsuarios = data;
@@ -56,7 +54,25 @@ export class HomeComponent implements OnInit {
   }
 
   actualizarUsuario(){
+    //console.log(this.formEditarUsuario.valid)
+    if (this.formEditarUsuario.valid) {
+        this.auth.actualizarUsuario(this.formEditarUsuario.value).subscribe(resp =>{
+        console.log(resp);
 
+        this.formEditarUsuario.reset
+
+      })
+    }else{
+      if (!this.formEditarUsuario.valid) {
+        return Object.values(this.formEditarUsuario.controls).forEach(controls => {
+          if (controls instanceof FormGroup) {
+            Object.values(controls.controls).forEach(control => control.markAsTouched());
+          } else {
+            controls.markAsTouched();
+          }
+        });
+      }
+    }
   }
 
   get validarId(){
@@ -81,7 +97,7 @@ export class HomeComponent implements OnInit {
 
   crearFormulario(){
     this.formEditarUsuario = this.formBuilder.group({
-      id:['', Validators.required],
+      id:[{value:'', disabled:true },Validators.required],
       email:['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password:['', [Validators.required, Validators.minLength(8)]],
       fecha:['', Validators.required],
