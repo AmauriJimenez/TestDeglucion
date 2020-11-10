@@ -23,19 +23,15 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.usuario = new usuarioModel;
 
-    setInterval( this.obtenerListaUsuarios,2000)
+    this.auth.getUsuarios().subscribe((data:any) =>{
+      this.listaUsuarios = data;
+      //console.log(this.listaUsuarios);
+    });
 
     this.auth.getEstados().subscribe((data:any) =>{
       this.listaEstados = data;
       this.listaEstados.unshift({ 'sts_Id': '', 'sts_Descripcion': 'Seleccione...' })
       //console.log(this.listaEstados)
-    });
-  }
-
-  obtenerListaUsuarios(){
-    this.auth.getUsuarios().subscribe((data:any) =>{
-      this.listaUsuarios = data;
-      //console.log(this.listaUsuarios);
     });
   }
 
