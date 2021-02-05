@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators'
 })
 export class AuthService {
 
-  private url:string = "http://209.151.150.81/back-web/servicios/";
+  //private url:string = "http://209.151.150.81/back-web/servicios/";
+  private url:string = "http://157.245.128.127/tdl/back-web/servicios/";
   userToken:string ="";
 
 

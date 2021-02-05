@@ -71,13 +71,13 @@ export class LoginComponent implements OnInit {
 
         switch (resp['resp']) {
           case 100:
-            this.router.navigateByUrl('/home')
+            this.router.navigateByUrl('/')
           break;
 
           case 203:
             Swal.fire({
               title:'Error',
-              text:'Usuario o contraseña invalido.',
+              text:'Usuario o contraseña invalidos.',
               icon:"error"
 
             });
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
           case 401:
             Swal.fire({
               title:'Error',
-              text:'El no se encuentra habilitado, comuniquese con el administrador.',
+              text:'El usuario no se encuentra habilitado, comuniquese con el administrador.',
               icon:"error"
 
             });
