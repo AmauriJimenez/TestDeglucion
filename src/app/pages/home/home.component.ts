@@ -3,6 +3,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { usuarioModel } from 'src/app/models/usuario.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { title } from 'process';
 
 @Component({
   selector: 'app-home',
@@ -23,16 +25,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.usuario = new usuarioModel;
 
-    this.auth.getUsuarios().subscribe((data:any) =>{
-      this.listaUsuarios = data;
-      //console.log(this.listaUsuarios);
-    });
-
-    this.auth.getEstados().subscribe((data:any) =>{
-      this.listaEstados = data;
-      this.listaEstados.unshift({ 'sts_Id': '', 'sts_Descripcion': 'Seleccione...' })
-      //console.log(this.listaEstados)
-    });
+    this.obtenerUsuarios();
+    this.obtenerEstados();
+    
   }
 
   salir(){
@@ -58,8 +53,34 @@ export class HomeComponent implements OnInit {
     if (this.formEditarUsuario.valid) {
         this.auth.actualizarUsuario(this.formEditarUsuario.value).subscribe(resp =>{
         console.log(resp);
-
         this.formEditarUsuario.reset
+        this.obtenerUsuarios();
+
+        switch (resp) {
+
+          case 200:
+            Swal.fire({
+                title: "Usuario Actualizado correctamente.",
+                icon: "success"
+            });
+          break;
+
+          case 203:
+            Swal.fire({
+                title: "Error durante la ejecucion, por favor vuelva a intentar.",
+                icon: "info"
+            });
+          break;
+
+          case 500:
+            Swal.fire({
+                title:"Error 500",
+                text:"Error en el servidor, comiquese con el administrador del sistema",
+                icon:"error"
+            });
+          break;
+
+        }
 
       })
     }else{
@@ -102,6 +123,22 @@ export class HomeComponent implements OnInit {
       password:['', [Validators.required, Validators.minLength(8)]],
       fecha:['', Validators.required],
       estado:['',Validators.required]
+    });
+  }
+
+  obtenerUsuarios(){
+    this.auth.getUsuarios().subscribe((data:any) =>{
+      this.listaUsuarios = data;
+      //console.log(this.listaUsuarios);
+    });
+    
+  }
+
+  obtenerEstados(){
+    this.auth.getEstados().subscribe((data:any) =>{
+      this.listaEstados = data;
+      this.listaEstados.unshift({ 'sts_Id': '', 'sts_Descripcion': 'Seleccione...' })
+      //console.log(this.listaEstados)
     });
   }
 

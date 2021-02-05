@@ -1,69 +1,67 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
-  <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="#">
       Dashboard
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-    aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-success mr-3" type="submit" data-toggle="modal" data-target="#nuevoUsuarioModal">NUEVO USUARIO</button>
-        <div class="btn btn-outline-warning mr-3 pl-4 pr-2">
-          <div class="row">
-            <small>Nombre</small>
-          </div>
-          <div class="row">
-            <span class="badge badge-warning mr-3">{{adm_Nombre | uppercase}}</span>
-          </div>
-        </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-success mr-3" type="submit" data-toggle="modal" data-target="#nuevoUsuarioModal">Nuevo Usuario</button>
 
-        <div (click)="salir()">
-          <button class="btn btn-outline-danger" routerLink="login" routerLinkActive="active">Cerrar Sesion</button>
-        </div>
-      </form>
-  </div>
+            <div (click)="salir()">
+                <button class="btn btn-outline-danger" routerLink="login" routerLinkActive="active">Cerrar Sesion</button>
+            </div>
+
+            <div class="btn btn-outline-warning mr-3 pl-4 pr-2 ml-3">
+                <div class="row">
+                    <span class="badge badge-warning mr-3 pt-2">{{adm_Nombre | uppercase}}</span>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </nav>
 
 
 <!-- Nuevo Usuario Modal -->
 <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo Usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-          <form [formGroup]="formNuevoUsuario" (ngSubmit)="nuevoUsuario()" class="form-group" autocomplete="off">
-
-            <div class="form-group">
-              <label class="col-2 col-form-label">Email</label>
-              <input type="email" class="form-control" formControlName="email" placeholder="Email">
-              <span *ngIf="validarEmail" class="text-danger">El correo es obligatorio</span>
             </div>
+            <div class="modal-body">
+                <form [formGroup]="formNuevoUsuario" (ngSubmit)="nuevoUsuario()" class="form-group" autocomplete="off">
 
-            <div class="form-group">
-              <label class="col-2 col-form-label">Contraseña</label>
-              <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
-              <span *ngIf="validarPassword" class="text-danger">la contraseña es obligatoria</span>
-            </div>
+                    <div class="form-group">
+                        <label class="col-2 col-form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email" placeholder="Email">
+                        <span *ngIf="validarEmail" class="text-danger">El correo es obligatorio</span>
+                    </div>
 
-            <div class="form-group">
-              <label class="col-6 col-form-label">Fecha de vencimiento</label>
-              <input type="date" class="form-control" formControlName="fecha" placeholder="Fecha Vencimiento">
-            </div>
+                    <div class="form-group">
+                        <label class="col-2 col-form-label">Contraseña</label>
+                        <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+                        <span *ngIf="validarPassword" class="text-danger">la contraseña es obligatoria</span>
+                    </div>
 
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="form-group">
+                        <label class="col-6 col-form-label">Fecha de vencimiento</label>
+                        <input type="date" class="form-control" formControlName="fecha" placeholder="Fecha Vencimiento">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
             </div>
-          </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
